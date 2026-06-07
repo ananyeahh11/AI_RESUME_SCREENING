@@ -1,3 +1,4 @@
+import { Oval } from "react-loader-spinner";
 import { useState } from "react";
 import axios from "axios";
 import { extractPdfText } from "./utils/pdf";
@@ -9,6 +10,7 @@ const [jobDescription, setJobDescription] = useState("");
 const [resumes, setResumes] = useState([]);
 const [result, setResult] = useState([]);
 const [loading, setLoading] = useState(false);
+const [search, setSearch] = useState("");
 
 const handleFileUpload = async (e) => {
   const files = Array.from(e.target.files);
@@ -83,6 +85,19 @@ result.reduce((sum, c) => sum + c.score, 0) /
 result.length
 )
 : 0;
+const strongCandidates =
+  result.filter(
+    (c) =>
+      c.fit === "Strong" ||
+      c.fit === "Good"
+  ).length;
+
+const weakCandidates =
+  result.filter(
+    (c) =>
+      c.fit === "Weak" ||
+      c.fit === "Average"
+  ).length;
 
 return (
 <div
@@ -263,25 +278,40 @@ AI-Powered Resume Screening & Candidate Ranking </h1>
       )}
 
       <button
-        onClick={analyzeCandidates}
-        disabled={loading}
-        style={{
-          marginTop: "20px",
-          width: "100%",
-          padding: "14px",
-          border: "none",
-          borderRadius: "12px",
-          color: "white",
-          fontWeight: "bold",
-          cursor: "pointer",
-          background:
-            "linear-gradient(135deg,#2563eb,#1d4ed8)",
-        }}
-      >
-        {loading
-          ? "Processing Resumes..."
-          : "Analyze & Rank Candidates"}
-      </button>
+  onClick={analyzeCandidates}
+  disabled={loading}
+  style={{
+    marginTop: "20px",
+    width: "100%",
+    padding: "14px",
+    border: "none",
+    borderRadius: "12px",
+    color: "white",
+    fontWeight: "bold",
+    cursor: "pointer",
+    background:
+      "linear-gradient(135deg,#2563eb,#1d4ed8)",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    gap: "10px",
+  }}
+>
+  {loading ? (
+    <>
+      <Oval
+        height={20}
+        width={20}
+        color="#fff"
+        secondaryColor="#93c5fd"
+        strokeWidth={4}
+      />
+      Analyzing Candidates...
+    </>
+  ) : (
+    "Analyze & Rank Candidates"
+  )}
+</button>
     </div>
   </div>
 
@@ -293,7 +323,7 @@ AI-Powered Resume Screening & Candidate Ranking </h1>
           margin: "0 auto",
           display: "grid",
           gridTemplateColumns:
-            "repeat(3,1fr)",
+            "repeat(5,1fr)",
           gap: "20px",
           padding: "20px",
         }}
@@ -312,6 +342,15 @@ AI-Powered Resume Screening & Candidate Ranking </h1>
           title="Top Ranked Candidate"
           value={result[0]?.name}
         />
+        <StatCard
+          title="Strong Fits"
+          value={strongCandidates}
+       />
+
+        <StatCard
+          title="Needs Review"
+          value={weakCandidates}
+       />
       </div>
 
       <div
@@ -321,6 +360,21 @@ AI-Powered Resume Screening & Candidate Ranking </h1>
           padding: "20px",
         }}
       >
+        <input
+  type="text"
+  placeholder="Search candidate..."
+  value={search}
+  onChange={(e) =>
+    setSearch(e.target.value)
+  }
+  style={{
+    width: "100%",
+    padding: "12px",
+    borderRadius: "10px",
+    border: "1px solid #d1d5db",
+    marginBottom: "20px",
+  }}
+/>
         <h2
           style={{
             marginBottom: "20px",
@@ -329,7 +383,11 @@ AI-Powered Resume Screening & Candidate Ranking </h1>
           Candidate Evaluation Report
         </h2>
 
-        {result.map(
+        {result .filter((candidate) =>
+    candidate.name
+      .toLowerCase()
+      .includes(search.toLowerCase())
+  ).map(
           (candidate, index) => (
             <div
               key={index}
