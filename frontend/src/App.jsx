@@ -58,7 +58,7 @@ const analyzeCandidates = async () => {
     console.log("Sending request to backend...");
 
     const response = await axios.post(
-      "http://127.0.0.1:5000/rank",
+      "https://ai-resume-screening-0115.onrender.com/rank",
       {
         jobTitle,
         jobDescription,
