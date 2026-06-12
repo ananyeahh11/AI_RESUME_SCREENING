@@ -31,10 +31,9 @@ def rank():
             ""
         )
 
-        resumes = data.get(
-            "resumes",
-            []
-        )
+        resumes = data.get("resumes", [])
+        print("TOTAL RESUMES RECEIVED:", len(resumes))    
+        
 
         if len(resumes) == 0:
             return jsonify({
