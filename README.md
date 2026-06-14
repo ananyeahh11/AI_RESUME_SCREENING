@@ -1,144 +1,130 @@
-# AI-Powered Resume Screening & Candidate Ranking
+# AI Resume Screening & Candidate Ranking System
 
-An AI-powered web application that automatically analyzes, evaluates, and ranks candidate resumes against a given job description using Google Gemini AI.
-
-## 🚀 Features
-
-* Upload multiple PDF resumes
-* Automatic resume text extraction
-* AI-powered candidate evaluation
-* Candidate ranking based on job requirements
-* Match score generation (0-100)
-* Candidate fit analysis (Strong, Good, Average, Weak)
-* Strengths identification
-* Skill gap detection
-* Professional candidate summaries
-* Skills extraction
-* Responsive and modern user interface
+An AI-powered web application that automatically screens resumes, evaluates candidates against a job description, and ranks them based on suitability using Google's Gemini AI.
 
 ---
 
-## 🛠️ Tech Stack
+## 🚀 Features
+
+- Upload multiple PDF resumes
+- Extract text from resumes automatically
+- Enter any Job Description
+- AI-based candidate evaluation
+- Candidate ranking from best to worst
+- Match Score (0-100)
+- Strengths & Skill Analysis
+- Gap Identification
+- Candidate Fit Classification
+- Search Candidates
+- Modern Dashboard UI
+- Real-time AI Processing
+
+---
+
+## 🛠 Tech Stack
 
 ### Frontend
-
-* React.js
-* Axios
-* React Circular Progressbar
+- React.js
+- Vite
+- Axios
+- PDF.js
+- React Circular Progressbar
+- React Loader Spinner
 
 ### Backend
-
-* Flask
-* Flask-CORS
-* Python
+- Python
+- Flask
+- Flask-CORS
 
 ### AI
-
-* Google Gemini AI
-
-### PDF Processing
-
-* PDF.js
+- Google Gemini API
+- Gemini 2.5 Flash Model
 
 ---
 
 ## 📂 Project Structure
 
 ```text
-AI-Resume-Screening/
+AI-Resume-Screening
 │
-├── frontend/
-│   ├── src/
-│   │   ├── components/
+├── backend
+│   ├── app.py
+│   ├── ranking.py
+│   ├── pdf_parser.py
+│   ├── .env
+│   └── venv
+│
+├── frontend
+│   ├── src
+│   │   ├── components
 │   │   │   └── ScoreRing.jsx
-│   │   ├── utils/
+│   │   │
+│   │   ├── utils
 │   │   │   └── pdf.js
+│   │   │
 │   │   ├── App.jsx
 │   │   └── main.jsx
 │   │
 │   ├── package.json
 │   └── vite.config.js
 │
-├── backend/
-│   ├── app.py
-│   ├── ranking.py
-│   ├── requirements.txt
-│   └── .env
-│
 └── README.md
 ```
 
 ---
 
-## ⚙️ How It Works
+## ⚙️ Installation
 
-1. Enter the job title and job description.
-2. Upload one or more candidate resumes in PDF format.
-3. The application extracts text from each resume.
-4. Resume data is sent to the Flask backend.
-5. Gemini AI evaluates every candidate against the job requirements.
-6. The system generates:
+### 1. Clone Repository
 
-   * Candidate Score
-   * Fit Rating
-   * Strengths
-   * Skill Gaps
-   * Skills Detected
-   * Professional Summary
-7. Candidates are automatically ranked from highest score to lowest score.
+```bash
+git clone https://github.com/YOUR_USERNAME/AI-Resume-Screening.git
+
+cd AI-Resume-Screening
+```
 
 ---
 
-## 📊 Candidate Evaluation Criteria
-
-The AI evaluates candidates based on:
-
-* Technical Skills
-* Relevant Experience
-* Education
-* Projects
-* Tools & Technologies
-* Job Requirement Matching
-* Overall Candidate Fit
-
----
-
-## 🔧 Installation
-
-### Clone Repository
-
-```bash
-git clone https://github.com/ananyaehh11/AI_RESUME_SCREENING.git
-cd AI_RESUME_SCREENING
-```
-
-### Frontend Setup
-
-```bash
-cd frontend
-
-npm install
-
-npm run dev
-```
-
-Frontend runs on:
-
-```text
-http://localhost:5173
-```
-
-### Backend Setup
+### 2. Backend Setup
 
 ```bash
 cd backend
 
 python -m venv venv
+```
 
+Activate Virtual Environment:
+
+Windows
+
+```bash
 venv\Scripts\activate
+```
 
-pip install -r requirements.txt
+Install Dependencies
 
+```bash
+pip install flask
+pip install flask-cors
+pip install python-dotenv
+pip install google-generativeai
+```
+
+---
+
+### 3. Create .env File
+
+Inside backend folder:
+
+```env
+GEMINI_API_KEY=YOUR_API_KEY
+```
+
+---
+
+### 4. Run Backend
+
+```bash
 python app.py
 ```
 
@@ -150,54 +136,72 @@ http://127.0.0.1:5000
 
 ---
 
-## 🔑 Environment Variables
+### 5. Frontend Setup
 
-Create a `.env` file inside the backend folder.
+```bash
+cd frontend
 
-```env
-GEMINI_API_KEY=YOUR_GEMINI_API_KEY
+npm install
+```
+
+Run Frontend
+
+```bash
+npm run dev
+```
+
+Frontend runs on:
+
+```text
+http://localhost:5173
 ```
 
 ---
 
-## 📡 API Endpoints
+## 🔄 Application Workflow
 
-### Health Check
-
-```http
-GET /
+```text
+User Uploads PDF Resumes
+            ↓
+PDF.js Extracts Resume Text
+            ↓
+React Sends Data to Flask API
+            ↓
+Flask Sends Prompt to Gemini AI
+            ↓
+Gemini Evaluates Candidates
+            ↓
+JSON Ranking Response
+            ↓
+React Displays Results
 ```
 
-Response:
+---
 
-```json
-{
-  "message": "Resume Screening API Running"
-}
-```
+## 🤖 AI Evaluation Parameters
 
-### Rank Candidates
+The Gemini AI model evaluates:
 
-```http
-POST /rank
-```
+- Technical Skills
+- Experience
+- Education
+- Job Description Match
+- Strengths
+- Missing Skills
+- Candidate Suitability
 
-Request Body:
+Each candidate receives:
 
-```json
-{
-  "jobTitle": "Full Stack Developer",
-  "jobDescription": "Job description here",
-  "resumes": [
-    {
-      "name": "Candidate Name",
-      "text": "Resume Text"
-    }
-  ]
-}
-```
+- Score (0-100)
+- Fit Category
+- Summary
+- Strengths
+- Gaps
+- Skills
 
-Response:
+---
+
+## 📊 Sample Output
 
 ```json
 [
@@ -205,47 +209,56 @@ Response:
     "name": "John Doe",
     "score": 92,
     "fit": "Strong",
-    "summary": "Excellent match for the role",
-    "strengths": ["React", "Node.js"],
-    "gaps": ["AWS"],
-    "skills": ["React", "Node.js", "JavaScript"]
+    "summary": "Excellent candidate with strong technical background.",
+    "strengths": [
+      "React",
+      "Node.js"
+    ],
+    "gaps": [
+      "AWS"
+    ],
+    "skills": [
+      "React",
+      "Node.js",
+      "JavaScript"
+    ]
   }
 ]
 ```
 
 ---
 
-## ✨ Key Highlights
+## 🔮 Future Enhancements
 
-* AI-based resume analysis
-* Multiple PDF resume support
-* Intelligent candidate ranking
-* Skill extraction and matching
-* Modern recruiter dashboard
-* Fast and scalable architecture
+- ATS Score Calculation
+- Candidate Comparison Dashboard
+- Resume Database Storage
+- Authentication & Authorization
+- Export Reports as PDF
+- Email Integration
+- Recruiter Dashboard
+- Interview Scheduling
 
----
-
-## 📈 Future Enhancements
-
-* Export results to PDF
-* Export results to Excel
-* Candidate search and filters
-* Authentication system
-* Resume database integration
-* Advanced analytics dashboard
-* Cloud deployment
 
 ---
 
-## 👩‍💻 Author
+## 🎯 Learning Outcomes
 
-**Ananya Ollem**
+Through this project I learned:
 
-B.Tech – Computer Science Engineering
+- React Development
+- Flask API Development
+- Gemini AI Integration
+- Prompt Engineering
+- PDF Text Extraction
+- REST API Communication
+- JSON Parsing
+- Full Stack Development
 
 ---
 
-## 📄 License
+## 👨‍💻 Author
 
-This project is developed for educational, internship, and learning purposes.
+Ananya Ollem
+
+AI Resume Screening & Candidate Ranking System
