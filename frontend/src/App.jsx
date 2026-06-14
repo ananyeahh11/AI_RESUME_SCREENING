@@ -3,6 +3,13 @@ import { useState } from "react";
 import axios from "axios";
 import { extractPdfText } from "./utils/pdf";
 import ScoreRing from "./components/ScoreRing";
+import {
+  FaUsers,
+  FaAward,
+  FaCheckCircle,
+  FaSearch
+} from "react-icons/fa";
+
 
 function App() {
 const [jobTitle, setJobTitle] = useState("");
@@ -110,29 +117,33 @@ fontFamily: "Arial, sans-serif",
 <div
 style={{
 background:
-"linear-gradient(135deg,#0f172a,#1e3a8a,#2563eb)",
+"linear-gradient(135deg,#020617,#1e3a8a,#3b82f6)",
 color: "white",
-padding: "80px 40px",
+padding: "100px 40px",
+textAlign: "center",
 }}
 >
 <h1
 style={{
-fontSize: "48px",
+fontSize: "58px",
 fontWeight: "700",
 lineHeight: "1.2",
 marginBottom: "20px",
 maxWidth: "900px",
+ letterSpacing: "-1px",
 }}
 >
 AI-Powered Resume Screening & Candidate Ranking </h1>
 
 
     <p
-      style={{
-        fontSize: "20px",
-        maxWidth: "800px",
-      }}
-    >
+  style={{
+    fontSize: "22px",
+    maxWidth: "800px",
+    margin: "0 auto",
+    opacity: "0.9",
+  }}
+>
       Analyze resumes, identify top talent,
       and shortlist the best candidates
       in minutes.
@@ -205,11 +216,13 @@ AI-Powered Resume Screening & Candidate Ranking </h1>
 
       <div
         style={{
-          border: "2px dashed #2563eb",
-          padding: "50px",
-          textAlign: "center",
-          borderRadius: "20px",
-          marginTop: "15px",
+           border: "3px dashed #3b82f6",
+           background: "#eff6ff",
+           padding: "50px",
+           textAlign: "center",
+           borderRadius: "20px",
+           marginTop: "15px",
+           transition: "0.3s",
         }}
       >
         <h3>Upload Candidate Resumes</h3>
@@ -360,21 +373,36 @@ AI-Powered Resume Screening & Candidate Ranking </h1>
           padding: "20px",
         }}
       >
-        <input
-  type="text"
-  placeholder="Search candidate..."
-  value={search}
-  onChange={(e) =>
-    setSearch(e.target.value)
-  }
+        <div
   style={{
-    width: "100%",
-    padding: "12px",
-    borderRadius: "10px",
-    border: "1px solid #d1d5db",
+    display: "flex",
+    alignItems: "center",
+    background: "white",
+    borderRadius: "12px",
+    padding: "0 15px",
+    boxShadow:
+      "0 4px 12px rgba(0,0,0,0.08)",
     marginBottom: "20px",
   }}
-/>
+>
+  <FaSearch color="#64748b" />
+
+  <input
+    type="text"
+    placeholder="Search candidate..."
+    value={search}
+    onChange={(e) =>
+      setSearch(e.target.value)
+    }
+    style={{
+      flex: 1,
+      padding: "12px",
+      border: "none",
+      outline: "none",
+      fontSize: "15px",
+    }}
+  />
+</div>
         <h2
           style={{
             marginBottom: "20px",
@@ -392,24 +420,30 @@ AI-Powered Resume Screening & Candidate Ranking </h1>
             <div
               key={index}
               style={{
-                background: "white",
+                background:  "linear-gradient(135deg,#ffffff,#f8fafc)",
                 borderRadius: "20px",
-                padding: "25px",
+                padding: "30px",
                 marginBottom: "20px",
                 display: "flex",
                 justifyContent:
                   "space-between",
                 gap: "20px",
                 boxShadow:
-                  "0 10px 30px rgba(0,0,0,0.08)",
+                  "0 15px 40px rgba(37,99,235,0.12)",
               }}
             >
               <div style={{ flex: 1 }}>
                 <h2>
-                  #{index + 1}
-                  {" "}
-                  {candidate.name}
-                </h2>
+  {index === 0
+    ? "🥇"
+    : index === 1
+    ? "🥈"
+    : index === 2
+    ? "🥉"
+    : `#${index + 1}`}
+  {" "}
+  {candidate.name}
+</h2>
 
                 <FitBadge
                   fit={candidate.fit}
@@ -455,25 +489,24 @@ AI-Powered Resume Screening & Candidate Ranking </h1>
 
                 <div>
                   {candidate.skills?.map(
-                    (skill, i) => (
-                      <span
-                        key={i}
-                        style={{
-                          display:
-                            "inline-block",
-                          background:
-                            "#dbeafe",
-                          padding:
-                            "6px 12px",
-                          margin: "4px",
-                          borderRadius:
-                            "20px",
-                        }}
-                      >
-                        {skill}
-                      </span>
-                    )
-                  )}
+  (skill, i) => (
+    <span
+      key={i}
+      style={{
+        display: "inline-block",
+        background: "#2563eb",
+        color: "white",
+        fontWeight: "600",
+        padding: "8px 14px",
+        margin: "5px",
+        borderRadius: "20px",
+        fontSize: "14px",
+      }}
+    >
+      {skill}
+    </span>
+  )
+)}
                 </div>
               </div>
 
@@ -494,7 +527,7 @@ AI-Powered Resume Screening & Candidate Ranking </h1>
       color: "#64748b",
     }}
   >
-    AI Resume Screening System • Powered by Gemini AI
+    AI Resume Screening System v1.0 • Powered by Gemini AI • Built with React & Flask
   </div>
 </div>
 
@@ -503,17 +536,40 @@ AI-Powered Resume Screening & Candidate Ranking </h1>
 }
 
 function StatCard({ title, value }) {
-return (
-<div
-style={{
-background: "white",
-padding: "20px",
-borderRadius: "20px",
-boxShadow:
-"0 10px 30px rgba(0,0,0,0.08)",
-}}
-> <h4>{title}</h4> <h2>{value}</h2> </div>
-);
+  return (
+    <div
+      style={{
+        background:
+          "linear-gradient(135deg,#ffffff,#f8fafc)",
+        padding: "24px",
+        borderRadius: "20px",
+        boxShadow:
+          "0 10px 25px rgba(0,0,0,0.08)",
+        transition: "0.3s",
+      }}
+    >
+      <h4
+        style={{
+          color: "#64748b",
+          marginBottom: "10px",
+          fontWeight: "500",
+        }}
+      >
+        {title}
+      </h4>
+
+      <h1
+        style={{
+          color: "#1e40af",
+          margin: 0,
+          fontSize: "32px",
+          fontWeight: "700",
+        }}
+      >
+        {value}
+      </h1>
+    </div>
+  );
 }
 
 function FitBadge({ fit }) {
